@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Insurance</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <h1>Add New Insurance Policy</h1>
+
+    <form th:action="@{/insurances/save}" th:object="${insurance}" method="post">
+        <label>Name:</label>
+        <input type="text" th:field="*{name}" required/>
+
+        <label>Description:</label>
+        <textarea th:field="*{description}" required></textarea>
+
+        <label>Premium:</label>
+        <input type="number" step="0.01" th:field="*{premium}" required/>
+
+        <button type="submit">Add Insurance</button>
+    </form>
+
+    <br>
+    <a th:href="@{/insurances}">Back to Insurance List</a>
+</body>
+</html>

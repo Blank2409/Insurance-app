@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Insurances</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <h1>Available Insurances</h1>
+
+    <!-- Add New Insurance Button -->
+    <a th:href="@{/insurances/add}" class="add-policy-btn">Add New Insurance</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Premium</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="insurance : ${insurances}">
+                <td th:text="${insurance.name}"></td>
+                <td th:text="${insurance.description}"></td>
+                <td th:text="${insurance.premium}"></td>
+                <td>
+                    <!-- Updated View Details Link -->
+                    <a th:href="@{/policy.pdf}" class="view-details-btn">View Details</a>
+
+                    
+                    <!-- Delete Button (Form for POST method) -->
+                    <form th:action="@{/insurances/delete/{id}(id=${insurance.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete this insurance?');">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
