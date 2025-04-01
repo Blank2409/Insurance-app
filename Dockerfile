@@ -1,14 +1,13 @@
-# Use the official Java image from Docker Hub
-FROM openjdk:17-jdk-slim
-
-# Set the working directory inside the container
+# Stage 1: Build with Maven
+FROM maven:3.9.9-eclipse-temurin-17-alpine AS build
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the JAR file from your project into the container
-COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
-
-# Expose the port your Spring Boot application will run on (default 8080)
+# Stage 2: Runtime
+FROM eclipse-temurin:17-alpine
+WORKDIR /app
+# Copy the JAR with a fixed name from the build stage
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8080
-
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
